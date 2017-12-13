@@ -63,8 +63,17 @@ namespace WebAPI_Book.Controllers
         }
 
         // DELETE: api/Book/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
+            List<Book> bookList = books.ToList<Book>();
+            Book bookToRemove = books.FirstOrDefault<Book>(b => b.Id == id);
+            if (bookToRemove == null)
+            {
+                return NotFound();
+            }
+            bookList.Remove(bookToRemove);
+            return Ok(bookList.ToList());
+
         }
     }
 }
