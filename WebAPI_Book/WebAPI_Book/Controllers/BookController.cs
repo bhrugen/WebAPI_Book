@@ -36,7 +36,7 @@ namespace WebAPI_Book.Controllers
         }
 
         //GET : api/book/{title}
-        [Route("Title/{title:alpha}")]
+        [Route("Title/{title:alpha:length(3,5)}")]
         public IHttpActionResult GetBooksByTitle(string title)
         {
             Book[] bookArray = books.Where<Book>(b => b.Title.ToLower().Contains(title.ToLower())).ToArray();
@@ -44,7 +44,8 @@ namespace WebAPI_Book.Controllers
         }
 
         // GET: api/Book/5
-        [Route("{id:int}")]
+        [HttpGet]
+        [Route("{id:int:range(1,3)}")]
         public IHttpActionResult RetrieveBookById(int id)
         {
             Book book = books.FirstOrDefault<Book>(b => b.Id == id);
