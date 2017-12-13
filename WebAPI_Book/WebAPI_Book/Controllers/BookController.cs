@@ -16,16 +16,35 @@ namespace WebAPI_Book.Controllers
                 new Book(){ Id=1,Author="Billy Goat",Price=100,Title="Spider without Duty"},
                 new Book(){ Id=2,Author="Happy Sheep",Price=200,Title="Giant and Theives"},
                 new Book(){ Id=3,Author="Jimmy Bear",Price=300,Title="Fortune of Time"},
+                new Book(){ Id=4,Author="Sammy Goat",Price=300,Title="Sun and Moon"}
             };
 
         // GET: api/Book
+        [Route("api/Book")]
         public IHttpActionResult Get()
         {
             return Ok(books);
         }
 
+        //GET : api/book/{author}
+        [Route("api/Book/Author/{author:alpha}")]
+        public IHttpActionResult GetBooksByAuthor(string author)
+        {
+            Book[] bookArray = books.Where<Book>(b => b.Author.ToLower().Contains(author.ToLower())).ToArray();
+            return Ok(bookArray);
+        }
+
+        //GET : api/book/{title}
+        [Route("api/Book/Title/{title:alpha}")]
+        public IHttpActionResult GetBooksByTitle(string title)
+        {
+            Book[] bookArray = books.Where<Book>(b => b.Title.ToLower().Contains(title.ToLower())).ToArray();
+            return Ok(bookArray);
+        }
+
         // GET: api/Book/5
-        public IHttpActionResult Get(int id)
+        [Route("api/Book/{id:int}")]
+        public IHttpActionResult RetrieveBookById(int id)
         {
             Book book = books.FirstOrDefault<Book>(b => b.Id == id);
 
@@ -38,6 +57,7 @@ namespace WebAPI_Book.Controllers
         }
 
         // POST: api/Book
+        [Route("api/Book")]
         public IHttpActionResult Post([FromBody]Book newBook)
         {
             List<Book> bookList = books.ToList<Book>();
@@ -47,6 +67,7 @@ namespace WebAPI_Book.Controllers
         }
 
         // PUT: api/Book/5
+        [Route("api/Book/{id:int}")]
         public IHttpActionResult Put(int id, [FromBody]Book updatedBook)
         {
             Book book = books.FirstOrDefault<Book>(b => b.Id == id);
@@ -63,6 +84,7 @@ namespace WebAPI_Book.Controllers
         }
 
         // DELETE: api/Book/5
+        [Route("api/Book/{id:int}")]
         public IHttpActionResult Delete(int id)
         {
             List<Book> bookList = books.ToList<Book>();
