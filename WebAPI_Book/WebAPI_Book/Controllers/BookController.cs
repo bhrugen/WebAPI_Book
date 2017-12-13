@@ -25,9 +25,16 @@ namespace WebAPI_Book.Controllers
         }
 
         // GET: api/Book/5
-        public string Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            return "value";
+            Book book = books.FirstOrDefault<Book>(b => b.Id == id);
+
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(book);
         }
 
         // POST: api/Book
