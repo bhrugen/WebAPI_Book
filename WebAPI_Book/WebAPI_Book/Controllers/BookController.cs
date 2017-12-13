@@ -38,8 +38,12 @@ namespace WebAPI_Book.Controllers
         }
 
         // POST: api/Book
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post([FromBody]Book newBook)
         {
+            List<Book> bookList = books.ToList<Book>();
+            newBook.Id = bookList.Count + 1;
+            bookList.Add(newBook);
+            return Ok(bookList.ToList());
         }
 
         // PUT: api/Book/5
