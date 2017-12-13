@@ -47,8 +47,19 @@ namespace WebAPI_Book.Controllers
         }
 
         // PUT: api/Book/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, [FromBody]Book updatedBook)
         {
+            Book book = books.FirstOrDefault<Book>(b => b.Id == id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            book.Price = updatedBook.Price;
+            book.Author = updatedBook.Author;
+            book.Title = updatedBook.Title;
+
+            return Ok(books);
+
         }
 
         // DELETE: api/Book/5
